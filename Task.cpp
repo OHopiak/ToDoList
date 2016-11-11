@@ -1,14 +1,13 @@
 #include "Task.h"
 
 
-
-Task::Task(string dateNtime, string wasCreated, string subject, string text, Priority priority)
-	:dateNtime(dateNtime), wasCreated(wasCreated), subject(subject), text(text), priority(priority)
+void Task::parseText(string text)
 {
 }
 
-Task::~Task()
+void Task::changeDoneState()
 {
+	isDone = !isDone;
 }
 
 string Task::to_string()
@@ -16,7 +15,34 @@ string Task::to_string()
 	return "Hi nigga\n";
 }
 
-void operator<<(ostream & os, Task & task)
+string Task::getWasCreated()
 {
-	os << task;
+	return *wasCreated;
+}
+string Task::getSubject()
+{
+	return *subject;
+}
+void Task::setSubject(string subject)
+{
+	this->subject = &subject;
+}
+string Task::getText()
+{
+	return *text;
+}
+void Task::setText(string text)
+{
+}
+
+Task::Task(string textToParse)
+{
+	parseText(textToParse);
+	isDone = false;
+}
+Task::~Task()
+{
+	delete wasCreated;
+	delete subject;
+	delete text;
 }

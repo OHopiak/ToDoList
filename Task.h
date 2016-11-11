@@ -3,19 +3,29 @@
 using namespace std;
 class Task
 {
-	static enum Priority { HIGH, MEDIUM, LOW };
-
 public:
-	Task(string dateNtime, string wasCreated, string subject, string text, Priority priority);
+	//info:
+	//	Constructor that takes text with data
+	Task(string textToParse);
 	~Task();
-	friend void operator<<(ostream & os, const Task& task);
+	//info:
+	//	Parse text with date of creation, subject and text to field values
+	void parseText(string text);
+	void changeDoneState();
 	string to_string();
+	string getWasCreated();
+	string getSubject();
+	void setSubject(string subject);
+	string getText();
+	void setText(string text);
+
 private:
-	string dateNtime;
-	string wasCreated;
-	string subject;
-	string text;
-	Priority priority;
+	string * wasCreated;
+	string * subject;
+	string * text;
+	bool isDone;
+
+//friend void operator<<(ostream & os, const Task& task);
 
 };
 
