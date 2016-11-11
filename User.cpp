@@ -15,6 +15,9 @@ User::User(string textToParse)
 
 User::~User()
 {
+	delete email;
+	delete login;
+	delete password;
 	delete tasks;
 }
 
