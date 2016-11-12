@@ -2,28 +2,34 @@
 
 void Task::parseText(string text)
 {
-	/*
-		sub{
-		
-		}sub//text{
-
-		}text//done{
-		
-		}done//date{
-
-		}date
-	*/
-	regex rgx("****(.+)****");
-	smatch match;
-
-	if (regex_search(text, match, rgx))
-	{	
-		cout << " f ";
-		for (auto m : match)  cout << m << '\n';
+	delete subject;
+	delete this->text;
+	delete wasCreated;
+	int iter = 0, start = 0, end;
+	for (size_t i = 0; i < text.size(); i++)
+	{
+		if (text[i] == '|') {
+			switch (iter++)
+			{
+			case 0:
+				end = i;
+				subject = new string(text, start, end - start);
+				start = i + 1;
+				break;
+			case 1:
+				end = i;
+				this->text = new string(text, start, end - start);
+				start = i + 1;
+				break;
+			case 2:
+				end = text.size() - 1;
+				wasCreated = new string(text, start, end - start);
+				break;
+			default:
+				break;
+			}
+		}
 	}
-	*subject = "Title";
-	*(this->text) = "text";
-	*wasCreated = "now";
 }
 
 void Task::changeDoneState()
@@ -33,7 +39,7 @@ void Task::changeDoneState()
 
 string Task::to_string()
 {
-	return "subject: " + *subject + "\ttext: " + *text + "\tdate" + *wasCreated;
+	return "subject: \"" + *subject + "\", text: \"" + *text + "\", date: " + *wasCreated;
 }
 
 string Task::getWasCreated()
@@ -54,6 +60,8 @@ string Task::getText()
 }
 void Task::setText(string text)
 {
+	this->text = &text;
+
 }
 
 Task::Task(string textToParse)
