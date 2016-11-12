@@ -16,6 +16,7 @@ private:
 	string * email;
 	string * login;
 	string * password;
-	vector<Task> * tasks;
+	vector<Task> * undoneTasks;
+	vector<Task> * udoneTasks;
 };
 

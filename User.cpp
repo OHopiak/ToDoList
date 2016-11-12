@@ -1,6 +1,5 @@
 #include "User.h"
 
-
 User::User(string email, string login, string password)
 {
 	this->email = &email;
@@ -18,23 +17,23 @@ User::~User()
 	delete email;
 	delete login;
 	delete password;
-	delete tasks;
+	delete undoneTasks;
+	delete udoneTasks;
 }
 
 void User::parseText(string text)
 {
+
 }
 
 string User::getEmail()
 {
 	return *email;
 }
-
 string User::getLogin()
 {
 	return *login;
 }
-
 string User::getPassword()
 {
 	return *password;
