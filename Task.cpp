@@ -5,8 +5,8 @@ void Task::parseText(string text)
 	delete subject;
 	delete this->text;
 	delete wasCreated;
-	int iter = 0, start = 0, end;
-	for (size_t i = 0; i < text.size(); i++)
+	int iter = 0, start = 1, end;
+	for (size_t i = 1; i < text.size(); i++)
 	{
 		if (text[i] == '|') {
 			switch (iter++)
@@ -30,6 +30,17 @@ void Task::parseText(string text)
 			}
 		}
 	}
+}
+
+string Task::dateNow()
+{
+	time_t t = time(0);   // get time now
+	struct tm * now = new tm();
+	localtime_s(now, &t);
+	string date = "";
+	date += std::to_string(now->tm_mday) + "/" + std::to_string(now->tm_mon + 1) + "/" + std::to_string(now->tm_year + 1900);
+	delete now;
+	return date;
 }
 
 void Task::changeDoneState()
@@ -67,6 +78,12 @@ void Task::setText(string text)
 Task::Task(string textToParse)
 {
 	parseText(textToParse);
+	isDone = false;
+}
+Task::Task(string subject, string text)
+{
+	string data = "|" + subject + "|" + text + "|" + dateNow() + "|";
+	parseText(data);
 	isDone = false;
 }
 Task::~Task()

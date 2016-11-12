@@ -3,8 +3,8 @@
 using namespace std;
 
 
-int main(){
-	Task my("Title|some text|now|");
+int main() {
+	Task my = Task("Title", "some text");
 	//my.setText("Hi");
 	cout << my.to_string() << endl;
 	system("pause");
