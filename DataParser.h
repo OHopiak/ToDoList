@@ -9,12 +9,16 @@ class DataParser
 public:
 	DataParser(string name);
 	User getUser(string login, string password);
+	void addUser(string email, string login, string password);
+	bool restoreUser(string email);
 	~DataParser();
 
 private:
 	void readData(string name);
 	void decodeData();
 	void encodeData();
+	void putData(string name);
+	string * filename;
 	string * data;
 	vector<User> * users;
 };
