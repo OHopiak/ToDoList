@@ -45,7 +45,7 @@ string Task::dateNow()
 
 void Task::changeDoneState()
 {
-	isDone = !isDone;
+	done = !done;
 }
 
 string Task::to_string()
@@ -57,6 +57,7 @@ string Task::getWasCreated()
 {
 	return *wasCreated;
 }
+
 string Task::getSubject()
 {
 	return *subject;
@@ -65,6 +66,7 @@ void Task::setSubject(string subject)
 {
 	this->subject = &subject;
 }
+
 string Task::getText()
 {
 	return *text;
@@ -75,16 +77,25 @@ void Task::setText(string text)
 
 }
 
+bool Task::isDone()
+{
+	return done;
+}
+void Task::setDone(bool done)
+{
+	this->done = done;
+}
+
 Task::Task(string textToParse)
 {
 	parseText(textToParse);
-	isDone = false;
+	done = false;
 }
 Task::Task(string subject, string text)
 {
 	string data = "|" + subject + "|" + text + "|" + dateNow() + "|";
 	parseText(data);
-	isDone = false;
+	done = false;
 }
 Task::~Task()
 {

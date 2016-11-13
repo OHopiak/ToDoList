@@ -14,7 +14,6 @@ public:
 	~Task();
 	//info:
 	//	Parse text with subject, text and date of creation to field values
-	void parseText(string text);
 	string dateNow();
 	void changeDoneState();
 	//info:
@@ -25,14 +24,17 @@ public:
 	void setSubject(string subject);
 	string getText();
 	void setText(string text);
+	bool isDone();
+	void setDone(bool done);
 
 private:
+	void parseText(string text);
 	string * wasCreated;
 	string * subject;
 	string * text;
-	bool isDone;
+	bool done;
 
-//friend void operator<<(ostream & os, const Task& task);
+	//friend void operator<<(ostream & os, const Task& task);
 
 };
 

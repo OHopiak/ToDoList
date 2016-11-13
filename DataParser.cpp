@@ -1,11 +1,8 @@
 #include "DataParser.h"
 
-
-
-DataParser::DataParser()
+DataParser::DataParser(string name)
 {
 }
-
 
 DataParser::~DataParser()
 {
