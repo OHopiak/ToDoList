@@ -2,7 +2,36 @@
 
 void User::parseText(string text)
 {
-
+	delete email;
+	delete login;
+	delete password;
+	delete tasks;
+	tasks = new vector<Task>();
+	int iter = 0, start = 1, end;
+	for (size_t i = 1; i < text.size(); i++){
+		if (text[i] == '~') {
+		switch (iter++){
+			case 0:
+				end = i;
+				email = new string(text, start, end - start);
+				start = i + 1;
+				break;
+			case 1:
+				end = i;
+				login = new string(text, start, end - start);
+				start = i + 1;
+				break;
+			case 2:
+				end = i;
+				password = new string(text, start, end - start);
+				break;
+			default:
+				end = i;
+				tasks->push_back(Task(string(text, start, end - start)));
+				break;
+			}
+		}
+	}
 }
 
 void User::addTask(string subject, string text)
