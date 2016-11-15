@@ -5,7 +5,7 @@ class User
 {
 public:
 	User(string email, string login, string password);
-	User(string login, string password);
+	User(string data);
 	~User();
 	void parseText(string text);
 	void addTask(string subject, string text);
@@ -17,14 +17,14 @@ public:
 	string getEmail();
 	string getLogin();
 	string getPassword();
-	const vector<Task> * getTasks();
+	const vector<Task> getTasks();
 	string to_string();
 
 
 private:
-	string * email;
-	string * login;
-	string * password;
-	vector<Task> * tasks;
+	string email;
+	string login;
+	string password;
+	vector<Task> tasks;
 };
 

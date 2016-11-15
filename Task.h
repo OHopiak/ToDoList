@@ -29,9 +29,9 @@ public:
 
 private:
 	void parseText(string text);
-	string * wasCreated;
-	string * subject;
-	string * text;
+	string wasCreated;
+	string subject;
+	string text;
 	bool done;
 
 	//friend void operator<<(ostream & os, const Task& task);
