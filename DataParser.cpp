@@ -55,7 +55,7 @@ void DataParser::putData(string name)
 
 DataParser::~DataParser()
 {
-	encodeData();
+	//encodeData();
 	putData(*filename);
 	cout << "deleted\n";
 	delete data;

@@ -76,6 +76,17 @@ const vector<Task>* User::getTasks()
 	return tasks;
 }
 
+string User::to_string()
+{
+	string data = "~";
+	data += *email + "~";
+	data += *login + "~";
+	data += *password + "~";
+	for(Task task : *tasks){
+		data += task.to_string() + "~";
+	}
+}
+
 User::User(string email, string login, string password)
 {
 	this->email = &email;

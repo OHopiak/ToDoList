@@ -18,6 +18,7 @@ public:
 	string getLogin();
 	string getPassword();
 	const vector<Task> * getTasks();
+	string to_string();
 
 
 private:

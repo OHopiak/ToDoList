@@ -50,7 +50,7 @@ void Task::changeDoneState()
 
 string Task::to_string()
 {
-	return "subject: \"" + *subject + "\", text: \"" + *text + "\", date: " + *wasCreated;
+	return "|" + *subject + "|" + *text + "|" + *wasCreated + "|";
 }
 
 string Task::getWasCreated()
