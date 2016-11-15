@@ -69,7 +69,7 @@ string User::getPassword()
 {
 	return password;
 }
-const vector<Task> User::getTasks()
+vector<Task> & User::getTasks()
 {
 	return tasks;
 }

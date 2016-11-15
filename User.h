@@ -17,7 +17,7 @@ public:
 	string getEmail();
 	string getLogin();
 	string getPassword();
-	const vector<Task> getTasks();
+	vector<Task> & getTasks();
 	string to_string();
 
 

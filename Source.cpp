@@ -4,10 +4,12 @@ using namespace std;
 
 DataParser dp("E:\\Education\\Programming\\C++\\ToDoList\\res\\new.txt");
 User * me;
-void init();
+Task * current;
+
 void auth();
 void signUp();
-void readTasks();
+void mainMenu();
+void readTasks(bool undone = true);
 void addTask();
 void editTask();
 void deleteTask();
@@ -17,22 +19,19 @@ void inputToInt(string input, int & num);
 void quit();
 
 int main() {
-	init();
-	auth();
-	cout << me->to_string() << endl;
-	system("pause");
-	return 0;
-}
-
-void init()
-{
 	CLS;
+	auth();
+	while (true) {
+		mainMenu();
+	}
+	return 0;
 }
 
 void auth()
 {
 	string login, password;
 	while (!me) {
+		bool wrongIn = false;
 		cout << "Choose option to be done:" << endl;
 		cout << "\t1) Log in" << endl;
 		cout << "\t2) Become a new user" << endl;
@@ -52,6 +51,7 @@ void auth()
 			cout << "Enter your password: ";
 			cin >> password;
 			me = dp.getUser(login, password);
+			if (!me) cout << "Login or password are incorrect!\n\n";
 			break;
 		case 2:
 			CLS;
@@ -62,10 +62,10 @@ void auth()
 			quit();
 			break;
 		default:
+			cout << "Wrong input, try again...\n\n";
 			break;
 		}
 		CLS;
-		if(!me) cout << "Login or password are incorrect!\n\n";
 	}
 }
 
@@ -87,6 +87,143 @@ void signUp()
 	cin >> password;
 	dp.addUser(email, login, password);
 	me = dp.getUser(login, password);
+}
+
+void mainMenu()
+{
+	cout << "\n\tHello " + me->getLogin();
+	cout << "Choose option to be done:" << endl;
+	cout << "\t1) Create new task" << endl;
+	cout << "\t2) Read undone tasks" << endl;
+	cout << "\t3) Read done tasks" << endl;
+	cout << "\t4) Exit" << endl;
+	int in;
+	string input;
+	cout << "Option: ";
+	cin >> input;
+	inputToInt(input, in);
+	switch (in)
+	{
+	case 1:
+		CLS;
+		addTask();
+		break;
+	case 2:
+		CLS;
+		readTasks();
+		return;
+		break;
+	case 3:
+		readTasks(false);
+		break;
+	case 4:
+		quit();
+		break; 
+	default:
+		cout << "Wrong input, try again...\n\n";
+		break;
+	}
+}
+
+void readTasks(bool undone)
+{
+	while (true) {
+		CLS;
+		vector<int> pos;
+		cout << (undone ? "Undone" : "Done") << "Task List\n\n";
+		for (size_t i = 0; i < me->getTasks().size(); i++)
+		{
+			pos.push_back(i);
+		}
+		for (size_t i = 0; i < pos.size(); i++)
+		{
+			Task & task = me->getTasks()[pos[i]];
+			if (task.isDone() != undone) {
+				cout << "\t" << (i + 1) << ") Subject: " << task.getSubject() << "\t\t\tDate: " << task.getWasCreated() << endl;
+				cout << task.getText() << "\n\n";
+			}
+		}
+		if (undone) {
+			cout << "Choose option to be done:" << endl;
+			cout << "\t1) Edit a task" << endl;
+			cout << "\t2) Delete a task" << endl;
+			cout << "\t3) Make task done" << endl;
+			cout << "\t4) Finish reading" << endl;
+			int in;
+			string input;
+			cout << "Option: ";
+			cin >> input;
+			inputToInt(input, in);
+			switch (in)
+			{
+			case 1:
+				CLS;
+				editTask();
+				break;
+			case 2:
+				CLS;
+				deleteTask();
+				return;
+				break;
+			case 3:
+				CLS;
+				changeDone();
+				break;
+			case 4:
+				return;
+			default:
+				cout << "Wrong input, try again...\n\n";
+				break;
+			}
+		}
+		else {
+			cout << "Choose option to be done:" << endl;
+			cout << "\t1) Delete a task" << endl;
+			cout << "\t2) Make task undone" << endl;
+			cout << "\t3) Finish reading" << endl;
+			int in;
+			string input;
+			cout << "Option: ";
+			cin >> input;
+			inputToInt(input, in);
+			switch (in)
+			{
+			case 1:
+				CLS;
+				addTask();
+				break;
+			case 2:
+				CLS;
+				readTasks();
+				return;
+				break;
+			case 3:
+				readTasks(false);
+				break;
+			case 4:
+				return;
+			default:
+				cout << "Wrong input, try again...\n\n";
+				break;
+			}
+		}
+	}
+}
+
+void addTask()
+{
+}
+
+void editTask()
+{
+}
+
+void deleteTask()
+{
+}
+
+void changeDone()
+{
 }
 
 bool checkData(string email)
