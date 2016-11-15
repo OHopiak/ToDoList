@@ -2,11 +2,34 @@
 
 DataParser::DataParser(string name)
 {
-	data = new string("");
-	users = new vector<User>();
-	filename = &name;
-	readData(*filename);
+	data = "";
+	users = vector<User>();
+	filename = name;
+	readData(filename);
 	//decodeData();
+	parseData();
+}
+
+User * DataParser::getUser(string login, string password)
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		if (users[i].getLogin()==login&&users[i].getPassword() == password) {
+			return &users[i];
+		}
+	}
+	return nullptr;
+}
+
+void DataParser::addUser(string email, string login, string password)
+{
+	User tmp = User(email, login, password);
+	users.push_back(tmp);
+}
+
+bool DataParser::restoreUser(string email)
+{
+	return false;
 }
 
 void DataParser::readData(string name)
@@ -15,29 +38,48 @@ void DataParser::readData(string name)
 	char c;
 	while (file.get(c))
 	{
-		*data += c;
+		data += c;
 	}
 	file.close();
-	cout << *data;
-	*data = "Hello";
 }
 
 void DataParser::decodeData()
 {
-	for (size_t i = 0; i < data->size(); i++)
+	for (size_t i = 0; i < data.size(); i++)
 	{
-		int pos = (int)(data->at(i));
+		int pos = (int)(data[i]);
 		pos += 20;
 		pos %= 256;
 		data[i] = (char)pos;
 	}
 }
 
+void DataParser::parseData()
+{
+	int start = 1, end;
+	for (size_t i = 1; i < data.size(); i++) {
+		if (data[i] == '^') {
+			end = i;
+			User temp = User(string(data, start, end - start));
+			users.push_back(temp);
+			start = i + 1;
+		}
+	}
+}
+
+void DataParser::prepareData()
+{
+	data = "^";
+	for (size_t i = 0; i < users.size(); i++) {
+		data += users[i].to_string() + "^";
+	}
+}
+
 void DataParser::encodeData()
 {
-	for (size_t i = 0; i < data->size(); i++)
+	for (size_t i = 0; i < data.size(); i++)
 	{
-		int pos = (int)(data->at(i));
+		int pos = (int)(data[i]);
 		pos -= 20;
 		pos %= 256;
 		pos = pos < 0 ? pos + 256 : pos;
@@ -48,17 +90,15 @@ void DataParser::encodeData()
 void DataParser::putData(string name)
 {
 	ofstream file;
-	file.open(name);
-	file << *data;
+	file.open(name, ios::out | ios::trunc);
+	file << data;
 	file.close();
 }
 
 DataParser::~DataParser()
 {
+	prepareData();
 	//encodeData();
-	putData(*filename);
+	putData(filename);
 	cout << "deleted\n";
-	delete data;
-	delete filename;
-	delete users;
 }

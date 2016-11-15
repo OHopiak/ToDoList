@@ -25,6 +25,7 @@ void User::parseText(string text)
 				end = i;
 				Task temp = Task(string(text, start, end - start));
 				tasks.push_back(temp);
+				start = i + 1;
 				break;
 			}
 		}
@@ -80,7 +81,7 @@ string User::to_string()
 	data += login + "~";
 	data += password + "~";
 	for (int i = 0; i < tasks.size(); i++) {
-		Task task = (tasks).at(i);
+		Task task = tasks[i];
 		data += task.to_string() + "~";
 	}
 	return data;
