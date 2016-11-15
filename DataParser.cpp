@@ -27,8 +27,19 @@ void DataParser::addUser(string email, string login, string password)
 	users.push_back(tmp);
 }
 
-bool DataParser::restoreUser(string email)
+int DataParser::restoreUser(string email)
 {
+	return 0;
+}
+
+bool DataParser::isInUsers(string email)
+{
+	for (size_t i = 0; i < users.size(); i++)
+	{
+		if (users[i].getEmail() == email) {
+			return true;
+		}
+	}
 	return false;
 }
 
@@ -100,5 +111,4 @@ DataParser::~DataParser()
 	prepareData();
 	//encodeData();
 	putData(filename);
-	cout << "deleted\n";
 }

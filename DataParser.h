@@ -10,7 +10,8 @@ public:
 	DataParser(string name);
 	User * getUser(string login, string password);
 	void addUser(string email, string login, string password);
-	bool restoreUser(string email);
+	int restoreUser(string email);
+	bool isInUsers(string email);
 	~DataParser();
 
 private:
