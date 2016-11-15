@@ -6,7 +6,7 @@ DataParser::DataParser(string name)
 	users = vector<User>();
 	filename = name;
 	readData(filename);
-	//decodeData();
+	decodeData();
 	parseData();
 }
 
@@ -27,16 +27,11 @@ void DataParser::addUser(string email, string login, string password)
 	users.push_back(tmp);
 }
 
-int DataParser::restoreUser(string email)
-{
-	return 0;
-}
-
-bool DataParser::isInUsers(string email)
+bool DataParser::isInUsers(string email, string login)
 {
 	for (size_t i = 0; i < users.size(); i++)
 	{
-		if (users[i].getEmail() == email) {
+		if (users[i].getEmail() == email || users[i].getLogin() == login) {
 			return true;
 		}
 	}
@@ -109,6 +104,6 @@ void DataParser::putData(string name)
 DataParser::~DataParser()
 {
 	prepareData();
-	//encodeData();
+	encodeData();
 	putData(filename);
 }
