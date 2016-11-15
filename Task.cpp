@@ -19,8 +19,12 @@ void Task::parseText(string text)
 				start = i + 1;
 				break;
 			case 2:
-				end = text.size() - 1;
+				end = i;
 				wasCreated = string(text, start, end - start);
+				break;
+				start = i + 1;
+			case 3:
+				done = (text[text.size() - 2] == '0' ? false : true);
 				break;
 			default:
 				break;
@@ -47,7 +51,7 @@ void Task::changeDoneState()
 
 string Task::to_string()
 {
-	string data = "|" + subject + "|" + text + "|" + wasCreated + "|";
+	string data = "|" + subject + "|" + text + "|" + wasCreated + "|" + (done ? "1" : "0") + "|";
 	return data;
 }
 
@@ -87,13 +91,11 @@ void Task::setDone(bool done)
 Task::Task(string textToParse)
 {
 	parseText(textToParse);
-	done = false;
 }
 Task::Task(string subject, string text)
 {
-	string data = "|" + subject + "|" + text + "|" + dateNow() + "|";
+	string data = "|" + subject + "|" + text + "|" + dateNow() + "|0|";
 	parseText(data);
-	done = false;
 }
 Task::~Task()
 {

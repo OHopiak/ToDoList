@@ -4,16 +4,16 @@ using namespace std;
 
 DataParser dp("E:\\Education\\Programming\\C++\\ToDoList\\res\\new.txt");
 User * me;
-Task * current;
+vector<Task> * tasks;
 
 void auth();
 void signUp();
 void mainMenu();
 void readTasks(bool undone = true);
 void addTask();
-void editTask();
-void deleteTask();
-void changeDone();
+void editTask(vector<int> pos);
+void deleteTask(vector<int> pos);
+void changeDone(vector<int> pos);
 bool checkData(string email);
 void inputToInt(string input, int & num);
 void quit();
@@ -91,7 +91,7 @@ void signUp()
 
 void mainMenu()
 {
-	cout << "\n\tHello " + me->getLogin();
+	cout << ("\tHello " + me->getLogin()) << "\n\n";
 	cout << "Choose option to be done:" << endl;
 	cout << "\t1) Create new task" << endl;
 	cout << "\t2) Read undone tasks" << endl;
@@ -109,7 +109,6 @@ void mainMenu()
 		addTask();
 		break;
 	case 2:
-		CLS;
 		readTasks();
 		return;
 		break;
@@ -130,7 +129,7 @@ void readTasks(bool undone)
 	while (true) {
 		CLS;
 		vector<int> pos;
-		cout << (undone ? "Undone" : "Done") << "Task List\n\n";
+		cout << (undone ? "Undone" : "Done") << " Task List\n\n";
 		for (size_t i = 0; i < me->getTasks().size(); i++)
 		{
 			pos.push_back(i);
@@ -157,19 +156,17 @@ void readTasks(bool undone)
 			switch (in)
 			{
 			case 1:
-				CLS;
-				editTask();
+				editTask(pos);
 				break;
 			case 2:
-				CLS;
-				deleteTask();
+				deleteTask(pos);
 				return;
 				break;
 			case 3:
-				CLS;
-				changeDone();
+				changeDone(pos);
 				break;
 			case 4:
+				CLS;
 				return;
 			default:
 				cout << "Wrong input, try again...\n\n";
@@ -189,18 +186,14 @@ void readTasks(bool undone)
 			switch (in)
 			{
 			case 1:
-				CLS;
-				addTask();
+				deleteTask(pos);
 				break;
 			case 2:
-				CLS;
-				readTasks();
+				changeDone(pos);
 				return;
 				break;
 			case 3:
-				readTasks(false);
-				break;
-			case 4:
+				CLS;
 				return;
 			default:
 				cout << "Wrong input, try again...\n\n";
@@ -212,17 +205,25 @@ void readTasks(bool undone)
 
 void addTask()
 {
+	CLS;
+	string subject, text;
+	cout << "New Task\n\n";
+	cout << "Enter the subject: ";
+	cin >> subject;
+	cout << "Enter the text: ";
+	cin >> text;
+	me->addTask(subject, text);
 }
 
-void editTask()
+void editTask(vector<int> pos)
 {
 }
 
-void deleteTask()
+void deleteTask(vector<int> pos)
 {
 }
 
-void changeDone()
+void changeDone(vector<int> pos)
 {
 }
 
