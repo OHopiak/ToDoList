@@ -1,10 +1,10 @@
-#include "Header.h"
 #include "DataParser.h"
-using namespace std;
+#include "NiceOut.h"
 
 DataParser dp("E:\\Education\\Programming\\C++\\ToDoList\\res\\new.txt");
 User * me;
 vector<Task> * tasks;
+
 
 void auth();
 void signUp();
@@ -18,6 +18,8 @@ bool checkEmail(string email);
 bool validateData(string & data);
 void inputToInt(string input, int & num);
 void quit();
+
+using namespace niceOut;
 
 int main() {
 	CLS;
@@ -35,11 +37,11 @@ void auth()
 	string login, password;
 	while (!me) {
 		bool wrongIn = false;
-		cout << "\n\t\t\t\tWelcome to the ToDoList application!\n\n";
-		cout << "Choose option to be done:" << endl;
-		cout << "\t1) Log in" << endl;
-		cout << "\t2) Become a new user" << endl;
-		cout << "\t3) Exit" << endl;
+		printH("Welcome to the ToDoList application!");
+		print("Choose option to be done:");
+		print("\t1) Log in");
+		print("\t2) Become a new user");
+		print("\t3) Exit");
 		int in;
 		string input;
 		cout << "Option: ";

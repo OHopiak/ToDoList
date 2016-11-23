@@ -80,7 +80,7 @@ string User::to_string()
 	data += email + "~";
 	data += login + "~";
 	data += password + "~";
-	for (int i = 0; i < tasks.size(); i++) {
+	for (size_t i = 0; i < tasks.size(); i++) {
 		Task task = tasks[i];
 		data += task.to_string() + "~";
 	}
