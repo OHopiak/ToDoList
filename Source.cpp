@@ -3,7 +3,6 @@
 
 DataParser dp("E:\\Education\\Programming\\C++\\ToDoList\\res\\new.txt");
 User * me;
-vector<Task> * tasks;
 
 
 void auth();
@@ -42,22 +41,25 @@ void auth()
 		print("\t1) Log in");
 		print("\t2) Become a new user");
 		print("\t3) Exit");
+		printDS();
 		int in;
-		string input;
-		cout << "Option: ";
-		cin >> input;
-		inputToInt(input, in);
+		string instr;
+		input("Option: ", instr);
+		printE();
+		inputToInt(instr, in);
 		switch (in)
 		{
 		case 1:
 			CLS;
-			cout << "Log In\n\n";
-			cout << "Enter your login: ";
-			cin >> login;
-			cout << "Enter your password: ";
-			cin >> password;
-			if (validateData(login) && validateData(password)) me = dp.getUser(login, password); \
-				if (!me) cout << "Login or password are incorrect!\n\n";
+			printH("Log In");
+			input("Enter your login : ", login);
+			input("Enter your password: ", password);
+			printE();
+			if (validateData(login) && validateData(password)) me = dp.getUser(login, password);
+			CLS;
+			if (!me) {
+				alert("Login or password are incorrect!");
+			}
 			break;
 		case 2:
 			CLS;
@@ -65,12 +67,13 @@ void auth()
 			return;
 		case 3:
 			quit();
+			CLS;
 			break;
 		default:
-			cout << "Wrong input, try again...\n\n";
+			CLS;
+			alert("Wrong input, try again...");
 			break;
 		}
-		CLS;
 	}
 }
 
@@ -80,11 +83,9 @@ void auth()
 void signUp()
 {
 	string email, login, password;
-	cout << "Registration\n\n";
-	cout << "\tEnter your email: ";
-	cin >> email;
-	cout << "\tEnter your login: ";
-	cin >> login;
+	printH("Registration");
+	input("\tEnter your email: ", email);
+	input("\tEnter your login: ", login);
 	if (!checkEmail(email) || dp.isInUsers(email, login)) {
 		CLS;
 		if (dp.isInUsers(email, login)) cout << "Account with this email or login already exists!\n\n";
@@ -92,8 +93,7 @@ void signUp()
 		auth();
 		return;
 	}
-	cout << "\tEnter your password: ";
-	cin >> password;
+	input("\tEnter your password: ", password);
 	if (validateData(login) && validateData(password) && validateData(email)) {
 		dp.addUser(email, login, password);
 		me = dp.getUser(login, password);
@@ -112,38 +112,37 @@ void signUp()
 //	Create and Read tasks or Exit
 void mainMenu()
 {
-	cout << ("\tHello " + me->getLogin() + "\n\n");
-	cout << "Choose option to be done:" << endl;
-	cout << "\t1) Create new task" << endl;
-	cout << "\t2) Read undone tasks" << endl;
-	cout << "\t3) Read done tasks" << endl;
-	cout << "\t4) Exit" << endl;
+	printH("Hello " + me->getLogin() + "");
+	print("Choose option to be done:");
+	print("\t1) Create new task");
+	print("\t2) Read undone tasks");
+	print("\t3) Read done tasks");
+	print("\t4) Exit");
 	int in;
-	string input;
-	cout << "Option: ";
-	cin >> input;
-	inputToInt(input, in);
+	string instr;
+	input("Option: ", instr);
+	printE();
+	inputToInt(instr, in);
 	switch (in)
 	{
 	case 1:
 		CLS;
 		addTask();
-		CLS;
 		break;
 	case 2:
-		readTasks();
 		CLS;
+		readTasks();
 		return;
 	case 3:
-		readTasks(false);
 		CLS;
+		readTasks(false);
 		break;
 	case 4:
 		quit();
 		CLS;
 		break;
 	default:
-		cout << "Wrong input, try again...\n\n";
+		alert("Wrong input, try again...");
 		break;
 	}
 }
@@ -156,7 +155,9 @@ void readTasks(bool undone)
 	while (true) {
 		CLS;
 		vector<int> pos;
-		cout << (undone ? "Undone" : "Done") << " Task List\n\n";
+		string title = (undone ? "Undone" : "Done");
+		title += " Task List";
+		printH(title);
 		for (size_t i = 0; i < me->getTasks().size(); i++)
 		{
 			Task & task = me->getTasks()[i];
@@ -167,20 +168,23 @@ void readTasks(bool undone)
 		for (size_t i = 0; i < pos.size(); i++)
 		{
 			Task & task = me->getTasks()[pos[i]];
-			cout << "\t" << (i + 1) << ") Subject: " << task.getSubject() << "\t\t\tDate: " << task.getWasCreated() << endl;
-			cout << task.getText() << "\n\n";
+			string head = "\t" + to_string(i + 1) + ") Subject: " + task.getSubject() + "\t\t\tDate: " + task.getWasCreated();
+			print(head);
+			printDS();
+			print(task.getText());
+			printD();
 		}
 		if (undone) {
-			cout << "Choose option to be done:" << endl;
-			cout << "\t1) Edit a task" << endl;
-			cout << "\t2) Delete a task" << endl;
-			cout << "\t3) Make task done" << endl;
-			cout << "\t4) Finish reading" << endl;
+			print("Choose option to be done:");
+			print("\t1) Edit a task");
+			print("\t2) Delete a task");
+			print("\t3) Make task done");
+			print("\t4) Finish reading");
 			int in;
-			string input;
-			cout << "Option: ";
-			cin >> input;
-			inputToInt(input, in);
+			string instr;
+			input("Option: ", instr);
+			printE();
+			inputToInt(instr, in);
 			switch (in)
 			{
 			case 1:
@@ -197,7 +201,7 @@ void readTasks(bool undone)
 				CLS;
 				return;
 			default:
-				cout << "Wrong input, try again...\n\n";
+				alert("Wrong input, try again...");
 				break;
 			}
 		}
@@ -224,7 +228,7 @@ void readTasks(bool undone)
 				CLS;
 				return;
 			default:
-				cout << "Wrong input, try again...\n\n";
+				alert("Wrong input, try again...");
 				break;
 			}
 		}
@@ -237,24 +241,34 @@ void addTask()
 {
 	CLS;
 	string subject, text;
-	cout << "New Task\n\n";
-	cout << "Enter the subject: ";
-	cin >> subject;
-	cout << "Enter the text:[write q to exit] \n";
+	printH("New Task");
+	input("Enter the subject: ", subject);
+	printDS();
+	print("Enter the text:[write q to exit]");
 	text = "";
 	string line = "";
-	int i = 0;
 	while (line != "q") {
 		text += line;
-		getline(cin, line);
-		i++;
-		if (line != "q" && i != 0) text += "\n";
+		cout << hvm << " ";
+		cin >> line;
+		if (line != "q") text += "\n";
 	}
 	validateData(subject);
 	validateData(text);
+	int pos;
+	while ((pos = text.find('\n')) == 0 || (pos = text.find('\n')) == text.size() - 1) {
+		if (pos == 0)
+		{
+			text = text.substr(1);
+		}
+		else if (pos == text.size())
+		{
+			text = text.substr(0, text.size() - 1);
+		}
+	}
 	me->addTask(subject, text);
 	CLS;
-	cout << "New task created!\n\n";
+	alert("New task created!");
 }
 
 //info:
@@ -262,10 +276,9 @@ void addTask()
 void editTask(vector<int> pos)
 {
 	int in;
-	string input;
-	cout << "Which task to edit?[0 to escape]: \n";
-	cin >> input;
-	inputToInt(input, in);
+	string instr;
+	input("Which task to edit?[0 to escape]: ", instr);
+	inputToInt(instr, in);
 	if (in == 0) {
 		CLS;
 		return;
@@ -273,27 +286,43 @@ void editTask(vector<int> pos)
 	else if (in > 0 && in <= pos.size()) {
 		CLS;
 		string subject, text;
-		cout << "Editing Task\n\n";
+		printH("Editing Task");
 		Task & task = me->getTasks()[pos[in - 1]];
-		cout << "\t" << (in + 1) << ") Subject: " << task.getSubject() << "\t\t\tDate: " << task.getWasCreated() << endl;
-		cout << task.getText() << "\n\n";
-		cout << "Enter the subject: ";
-		cin >> subject;
-		cout << "Enter the text:[write q to exit] ";
+		string head = "\t" + to_string(in + 1) + ") Subject: " + task.getSubject() + "\t\t\tDate: " + task.getWasCreated();
+		print(head);
+		printDS();
+		print(task.getText());
+		printD();
+		input("Enter the subject: ", subject);
+		printDS();
+		print("Enter the text:[write q to exit] ");
 		text = "";
 		string line = "";
 		while (line != "q") {
 			text += line;
-			getline(cin, line);
+			cout << hvm << " ";
+			cin >> line;
 			if (line != "q") text += "\n";
 		}
+		int pos;
+		while ((pos = text.find('\n')) == 0 || (pos = text.find('\n')) == text.size() - 1) {
+			if (pos == 0)
+			{
+				text = text.substr(1);
+			}
+			else if (pos == text.size())
+			{
+				text = text.substr(0, text.size() - 1);
+			}
+		}
+
 		task = Task(subject, text);
 		CLS;
-		cout << "Successfully edited\n\n";
+		alert("Successfully edited");
 	}
 	else {
 		CLS;
-		cout << "Wrong input\n\n";
+		alert("Wrong input");
 	}
 }
 
@@ -302,18 +331,17 @@ void editTask(vector<int> pos)
 void deleteTask(vector<int> pos)
 {
 	int in;
-	string input;
-	cout << "Which task to delete?[0 to escape]: ";
-	cin >> input;
-	inputToInt(input, in);
+	string instr;
+	input("Which task to delete?[0 to escape]: ", instr);
+	inputToInt(instr, in);
 	if (in == 0) return;
 	else if (in > 0 && in <= pos.size()) {
 		me->removeTask(pos[in - 1]);
-		cout << "Successfully deleted\n\n";
+		alert("Successfully deleted!");
 	}
 	else {
 		CLS;
-		cout << "Wrong input\n\n";
+		alert("Wrong input!");
 	}
 }
 
@@ -322,18 +350,18 @@ void deleteTask(vector<int> pos)
 void changeDone(vector<int> pos)
 {
 	int in;
-	string input;
-	cout << "Done state of which task to change?[0 to escape]: ";
-	cin >> input;
-	inputToInt(input, in);
+	string instr;
+	input("Done state of which task to change?[0 to escape]: ", instr);
+	inputToInt(instr, in);
 	if (in == 0) return;
 	else if (in > 0 && in <= pos.size()) {
 		me->changeTaskDone(pos[in - 1]);
-		cout << "Successfully changed done state\n\n";
+		CLS;
+		alert("Successfully changed done state");
 	}
 	else {
 		CLS;
-		cout << "Wrong input\n\n";
+		alert( "Wrong input");
 	}
 }
 
@@ -380,8 +408,7 @@ void inputToInt(string input, int & num)
 //	If he/she wants then shut down the app
 void quit()
 {
-	string input;
-	cout << "Do you really want to exit?[y/n]: ";
-	cin >> input;
-	if (input[0] == 'Y' || input[0] == 'y') exit(0);
+	string instr;
+	input("Do you really want to exit?[y/n]: ", instr);
+	if (instr[0] == 'Y' || instr[0] == 'y') exit(0);
 }

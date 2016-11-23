@@ -18,10 +18,19 @@ namespace niceOut {
 	const char bgl = (char)176;	//background low
 	const char bgm = (char)177;	//background medium
 	const char bgh = (char)178;	//background high
-	const string tabl = { bgl, bgl }; //background high
-	const string tabm = { bgm, bgm }; //background high
-	const string tabh = { bgh, bgh }; //background high
+	const string tabl = { bgl, bgl }; //tab low
+	const string tabm = { bgm, bgm }; //tab medium
+	const string tabh = { bgh, bgh }; //tab high
+	const char bell = (char)7; //system bell
+	const char bkl = (char)221; //block left
+	const char bks = (char)219; //block solid
+	const char bkr = (char)222; //block right
+	const char crl = (char)244; //curly left
+	const char crr = (char)245; //curly right
 
+	//info:
+	//	Prints information with average background
+	//	in the middle of the line
 	void printM(string str)
 	{
 		int pos = str.find('\n');
@@ -77,6 +86,8 @@ namespace niceOut {
 		}
 	}
 
+	//info:
+	//	Prints header with the subject of menu or submenu
 	void printH(string str) {
 		for (size_t col = 1; col <= SIZE; col++)
 		{
@@ -110,25 +121,35 @@ namespace niceOut {
 
 	}
 
+	//info:
+	//	Simply prints lines with text and low background
 	void print(string str)
 	{
 		int pos = str.find('\n');
 		if (pos == -1) {
 			int pos2;
-			while ((pos2 = str.find('\t')) != -1) {
-				if (pos2 == 0)
-				{
-					str = tabl + " " + str.substr(pos2 + 1);
-				}
-				else if (pos2 == str.size())
-				{
-					str = str.substr(0, str.size() - 1);
-				}
-				else
-				{
-					str = str.substr(0, pos2) + "  " + str.substr(pos2 + 1);
+			if ((pos2 = str.find('\t')) != -1) {
+				while ((pos2 = str.find('\t')) != -1) {
+					if (pos2 == 0)
+					{
+						str = tabl + " " + str.substr(pos2 + 1);
+					}
+					else if (pos2 == str.size())
+					{
+						str = str.substr(0, str.size() - 1);
+					}
+					else
+					{
+						str = str.substr(0, pos2) + "  " + str.substr(pos2 + 1);
+					}
 				}
 			}
+			else {
+
+				str = " " + str;
+			}
+			str += " ";
+
 			while ((pos2 = str.find('\r')) != -1) {
 				if (pos2 == 0)
 				{
@@ -143,7 +164,6 @@ namespace niceOut {
 					str = str.substr(0, pos2) + str.substr(pos2 + 1);
 				}
 			}
-			str += " ";
 			if (str.size() <= SIZE - 4)
 			{
 				cout << hvm << bgl;
@@ -168,6 +188,18 @@ namespace niceOut {
 		}
 	}
 
+	//info:
+	//	Gets user input
+	void input(string prompt, string & input) {
+		
+				cout << hvm << "   ";
+				string begin = "";
+				cout << prompt;
+				cin >> input;
+	}
+
+	//info:
+	//	Prints double-lined horisontal delimiter
 	void printD()
 	{
 		for (size_t col = 1; col <= SIZE; col++)
@@ -186,6 +218,8 @@ namespace niceOut {
 		}
 	}
 
+	//info:
+	//	Prints single-lined horisontal delimiter
 	void printDS()
 	{
 		for (size_t col = 1; col <= SIZE; col++)
@@ -204,6 +238,8 @@ namespace niceOut {
 		}
 	}
 
+	//info:
+	//	Prints double-lined ending border
 	void printE()
 	{
 		for (size_t col = 1; col <= SIZE; col++)
@@ -222,4 +258,60 @@ namespace niceOut {
 		}
 	}
 
+	//info:
+	//	Prints alert message with system bell
+	void alert(string str) {
+		cout << bell << endl;
+		int pos = str.find('\n');
+		if (pos == -1) {
+			int pos2;
+			while ((pos2 = str.find('\t')) != -1) {
+				if (pos2 == 0)
+				{
+					str = tabm + str.substr(pos2 + 1);
+				}
+				else if (pos2 == str.size())
+				{
+					str = str.substr(0, str.size() - 1);
+				}
+				else
+				{
+					str = str.substr(0, pos2) + "  " + str.substr(pos2 + 1);
+				}
+			}
+			while ((pos2 = str.find('\r')) != -1) {
+				if (pos2 == 0)
+				{
+					str = str.substr(pos2 + 1);
+				}
+				else if (pos2 == str.size())
+				{
+					str = str.substr(0, str.size() - 1);
+				}
+				else
+				{
+					str = str.substr(0, pos2) + str.substr(pos2 + 1);
+				}
+			}
+			cout << bks << bgh;
+			string begin = "";
+			int count = SIZE - 4 - str.size();
+			int cbgin = count / 2;
+			int cend = count - cbgin;
+			for (int i = 0; i < cbgin - 1; i++)
+			{
+				cout << bgm;
+			}
+			cout << " " + str + " ";
+			for (int i = 0; i < cend - 1; i++)
+			{
+				cout << bgm;
+			}
+			cout << bgh << bks << endl;
+		}
+		else {
+			alert(str.substr(0, pos));
+			alert(str.substr(pos + 1));
+		}
+	}
 }
