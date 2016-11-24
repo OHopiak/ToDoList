@@ -6,7 +6,7 @@ DataParser::DataParser(string name)
 	users = vector<User>();
 	filename = name;
 	readData(filename);
-	//decodeData();
+	decodeData();
 	parseData();
 }
 
@@ -54,9 +54,12 @@ void DataParser::decodeData()
 
 	for (size_t i = 0; i < data.size(); i++)
 	{
+		size_t size = 127 - 32;
 		unsigned short pos = (unsigned short)(data[i]);
-		pos += 20;
-		pos %= 256;
+		pos -= 32;
+		pos += 20 + size;
+		pos %= size;
+		pos += 32;
 		data[i] = (char)pos;
 	}
 
@@ -88,9 +91,13 @@ void DataParser::encodeData()
 
 	for (size_t i = 0; i < data.size(); i++)
 	{
+		size_t size = 127 - 32;
 		unsigned short pos = (unsigned short)(data[i]);
+		pos -= 32;
 		pos -= 20;
-		pos %= 256;
+		pos += size;
+		pos %= size;
+		pos += 32;
 		data[i] = (char)pos;
 	}
 
@@ -107,6 +114,6 @@ void DataParser::putData(string name)
 DataParser::~DataParser()
 {
 	prepareData();
-	//encodeData();
+	encodeData();
 	putData(filename);
 }
