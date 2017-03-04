@@ -1,7 +1,7 @@
 #include "DataParser.h"
 #include "NiceOut.h"
 
-DataParser dp("E:\\Education\\Programming\\C++\\ToDoList\\res\\new.txt");
+DataParser dp("data.dat");
 User * me;
 
 

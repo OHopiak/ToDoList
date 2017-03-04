@@ -37,7 +37,7 @@ string Task::dateNow()
 {
 	time_t t = time(0);   // get time now
 	struct tm * now = new tm();
-	localtime_s(now, &t);
+	now = localtime(&t);
 	string date = "";
 	date += std::to_string(now->tm_mday) + "/" + std::to_string(now->tm_mon + 1) + "/" + std::to_string(now->tm_year + 1900);
 	delete now;
